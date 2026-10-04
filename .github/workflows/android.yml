@@ -118,7 +118,9 @@ jobs:
           "$APKSIGNER" verify --verbose --print-certs "$APK_FILE"
 
           APK_CERT_SHA256="$("$APKSIGNER" verify --print-certs "$APK_FILE" |
-            awk -F': ' '/Signer #1 certificate SHA-256 digest/ {print $2; exit}')"
+            sed -n 's/^.*certificate SHA-256 digest: //p' |
+            head -n 1 |
+            tr -d '\r')"
 
           if [ -z "$APK_CERT_SHA256" ]; then
             echo "::error::Could not read APK signing certificate SHA-256."
