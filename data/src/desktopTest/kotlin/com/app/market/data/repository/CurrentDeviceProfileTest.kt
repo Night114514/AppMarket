@@ -16,7 +16,7 @@ class CurrentDeviceProfileTest {
     fun compatibleAndroidSourcesDefaultToTheCurrentDevice() {
         assertEquals(ProfileSource.PRESET, defaultProfileSource(AppSource.OPPO, deviceAvailable = true))
         assertEquals(ProfileSource.DEVICE, defaultProfileSource(AppSource.HONOR, deviceAvailable = true))
-        assertEquals(ProfileSource.DEVICE, defaultProfileSource(AppSource.XIAOMI, deviceAvailable = true))
+        assertEquals(ProfileSource.PRESET, defaultProfileSource(AppSource.XIAOMI, deviceAvailable = true))
         assertEquals(ProfileSource.PRESET, defaultProfileSource(AppSource.XIAOMI, deviceAvailable = false))
     }
 
