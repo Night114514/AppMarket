@@ -142,16 +142,22 @@ jobs:
         run: |
           set -euo pipefail
 
+          APK_SHA256="$(sha256sum "$APK_FILE" | awk '{print $1}')"
+          APK_SHA1="$(sha1sum "$APK_FILE" | awk '{print $1}')"
+          APK_MD5="$(md5sum "$APK_FILE" | awk '{print $1}')"
+          APK_NAME="$(basename "$APK_FILE")"
+          APK_SIZE="$(stat -c '%s bytes' "$APK_FILE")"
+
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "### Release APK" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "| Hash | Value |" >> "$GITHUB_STEP_SUMMARY"
           echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| SHA-256 | `$(sha256sum "$APK_FILE" | awk '{print $1}')` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| SHA-1 | `$(sha1sum "$APK_FILE" | awk '{print $1}')` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| MD5 | `$(md5sum "$APK_FILE" | awk '{print $1}')` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| File | `$(basename "$APK_FILE")` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Size | `$(stat -c '%s bytes' "$APK_FILE")` |" >> "$GITHUB_STEP_SUMMARY"
+          printf '| SHA-256 | `%s` |\n' "$APK_SHA256" >> "$GITHUB_STEP_SUMMARY"
+          printf '| SHA-1 | `%s` |\n' "$APK_SHA1" >> "$GITHUB_STEP_SUMMARY"
+          printf '| MD5 | `%s` |\n' "$APK_MD5" >> "$GITHUB_STEP_SUMMARY"
+          printf '| File | `%s` |\n' "$APK_NAME" >> "$GITHUB_STEP_SUMMARY"
+          printf '| Size | `%s` |\n' "$APK_SIZE" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v7
