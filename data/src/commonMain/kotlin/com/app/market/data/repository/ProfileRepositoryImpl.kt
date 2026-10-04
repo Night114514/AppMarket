@@ -770,6 +770,7 @@ internal fun vivoPresetProfile(
 
 internal fun defaultProfileSource(appSource: AppSource, deviceAvailable: Boolean): ProfileSource = when {
     appSource == AppSource.OPPO -> ProfileSource.PRESET
+    appSource == AppSource.XIAOMI -> ProfileSource.PRESET
     deviceAvailable -> ProfileSource.DEVICE
     else -> ProfileSource.PRESET
 }
